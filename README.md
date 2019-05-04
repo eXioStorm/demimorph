@@ -8,9 +8,9 @@ another 2D platformer RPG
 * [Rendering]() - 
 * [Physics]() - 
 * [Inputs]() -
-* [TileMap Manager]() -
-* [Game Loop]() - 
-* [AI]() -
+* [TileMap Manager]() - handles retrieving information about the tilemap (game map)
+* [Game Loop]() - The code that runs x times per second (main loop)
+* [Artificial Intelligence]() - self explanatory?
 * [Event Handler]() -
   * Add a textfield
 * [Event Scheduler]() - Schedules when the game should do something, in events where it is required that this runs with the main game loop. (such as timed delays?) for example, something happens and needs to do something else in 30 seconds, this will run every so often to check if 30 seconds has elapsed since then, and once it finally has, it will do something. (adjust how frequently this method will run)

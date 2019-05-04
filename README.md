@@ -3,6 +3,8 @@ another 2D platformer RPG
 
 ## workflow progress
 * ~~[Audio]() - Positional audio that's easy to use.~~
+  ~~* add categories~~
+  ~~* add a sound type that can overlap itself~~
 * [Rendering]() - 
 * [Physics]() - 
 * [Inputs]() -

@@ -18,6 +18,7 @@ another 2D platformer RPG
 * [Event Handler]() -
   * Add a textfield
 * [Event Scheduler]() - Schedules when the game should do something, in events where it is required that this runs with the main game loop. (such as timed delays?) for example, something happens and needs to do something else in 30 seconds, this will run every so often to check if 30 seconds has elapsed since then, and once it finally has, it will do something. (adjust how frequently this method will run)
+* [RPG System?]() - Handle things such as abilities, items, inventories, worn equipment / items, etc?
 * []() -
 
 * [Networking]() - anything which interacts with somebody or something else over the internet.

@@ -5,9 +5,9 @@ another 2D platformer RPG
 * ~~[Audio]() - Positional audio that's easy to use.~~
   * ~~add categories~~
   * ~~add a sound type that can overlap itself~~
-* [Rendering]() - 
-* [Physics]() - 
-* [Inputs]() -
+* [Rendering]() - what you will see on the screen. (or wont see)
+* [Physics]() - things like collisions...
+* [Inputs]() - Handles all user inputs, gaming controller controls, keyboard buttons, mouse buttons, mouse position, basically any device which you would plug in to your computer to interact with the game.
 * [TileMap Manager]() - handles retrieving information about the tilemap (game map)
 * [Game Loop]() - The code that runs x times per second (main loop)
 * [Artificial Intelligence]() - self explanatory?
@@ -16,7 +16,7 @@ another 2D platformer RPG
 * [Event Scheduler]() - Schedules when the game should do something, in events where it is required that this runs with the main game loop. (such as timed delays?) for example, something happens and needs to do something else in 30 seconds, this will run every so often to check if 30 seconds has elapsed since then, and once it finally has, it will do something. (adjust how frequently this method will run)
 * []() -
 
-* [Networking]() -
+* [Networking]() - anything which interacts with somebody or something else over the internet.
   * Add multiplayer, either from peer to peer, or from setting up a server.
 
 ## special thanks:

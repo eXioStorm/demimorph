@@ -9,6 +9,10 @@ another 2D platformer RPG
 * [Physics]() - things like collisions...
 * [Inputs]() - Handles all user inputs, gaming controller controls, keyboard buttons, mouse buttons, mouse position, basically any device which you would plug in to your computer to interact with the game.
 * [TileMap Manager]() - handles retrieving information about the tilemap (game map)
+* [Entity Handler]() - ???
+  * Player
+  * NPC
+  * Objects
 * [Game Loop]() - The code that runs x times per second (main loop)
 * [Artificial Intelligence]() - self explanatory?
 * [Event Handler]() -

@@ -24,7 +24,7 @@ another 2D platformer RPG
 * [Networking]() - anything which interacts with somebody or something else over the internet.
   * Add multiplayer, either from peer to peer, or from setting up a server.
 ## Other ToDos
-* make & release simple audio player demo and standalone jar / source.
+* make & release simple a audio player demo and standalone jar / source.
 
 ## special thanks:
 [Mike S.](https://github.com/foreignguymike) Thanks for making the original game code which I eviscerated in order to start learning how to make my own. Also check out his [youtube channel](https://www.youtube.com/channel/UC_IV37n-uBpRp64hQIwywWQ).

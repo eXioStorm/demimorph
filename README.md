@@ -1,4 +1,5 @@
-![Discord](https://discordapp.com/api/guilds/431382619595210752/widget.png)
+[discord-invite]: https://discord.gg/0hMr4ce0tIl3SLv5
+[![Discord](https://discordapp.com/api/guilds/431382619595210752/widget.png)][discord-invite]
 # demimorph
 another 2D platformer RPG
 

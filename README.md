@@ -5,7 +5,7 @@
 
 [ ![FAQ] ](https://github.com/eXioStorm/demimorph)
 # demimorph
-another 2D platformer RPG
+an attempt to create a platformer with extensive modding capabilities.
 
 ## workflow progress
 * ~~[Audio]() - Positional audio that's easy to use.~~

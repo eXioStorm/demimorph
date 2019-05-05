@@ -1,6 +1,8 @@
 [discord-invite]: https://discord.gg/invite/eXioStorm#6069
+[FAQ]: https://
 [![Discord](https://cdn.discordapp.com/attachments/509290751478464525/574644069607800843/myDiscord.png)][discord-invite]
 [![Discord](https://discordapp.com/api/guilds/431382619595210752/widget.png)][discord-invite]
+[ ![FAQ] ](https://github.com/DV8FromTheWorld/JDA/wiki/10\)-FAQ)
 # demimorph
 another 2D platformer RPG
 

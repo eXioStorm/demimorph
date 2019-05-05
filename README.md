@@ -1,4 +1,4 @@
-![Discord](https://discordapp.com/api/guilds/125227483518861312/widget.png)
+![Discord](https://discordapp.com/api/guilds/431382619595210752/widget.png)
 # demimorph
 another 2D platformer RPG
 

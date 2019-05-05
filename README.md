@@ -1,5 +1,6 @@
-[discord-invite]: https://discord.gg/
+[discord-invite]: https://discord.gg/user/eXioStorm#6069
 [![Discord](https://cdn.discordapp.com/attachments/509290751478464525/574644069607800843/myDiscord.png)][discord-invite]
+![Discord](https://discordapp.com/api/guilds/431382619595210752/widget.png)
 # demimorph
 another 2D platformer RPG
 

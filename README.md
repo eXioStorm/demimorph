@@ -21,7 +21,7 @@ an attempt to create a platformer with extensive modding capabilities.
   * Objects
 * [Game Loop]() - The code that runs x times per second (main loop)
 * [Artificial Intelligence]() - self explanatory?
-* [Event Handler]() -
+* [Event Handler]() - handles things such as your keyboard layout / what should happen if x happens?
   * Add a textfield for sending text to the client(can be used later to also send it to multiplayer chat)
 * [Event Scheduler]() - Schedules when the game should do something, in events where it is required that this runs with the main game loop. (such as timed delays?) for example, something happens and needs to do something else in 30 seconds, this will run every so often to check if 30 seconds has elapsed since then, and once it finally has, it will do something. (adjust how frequently this method will run)
 * [RPG System?]() - Handle things such as abilities, items, inventories, worn equipment / items, etc?

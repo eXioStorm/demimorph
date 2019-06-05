@@ -12,6 +12,7 @@ an attempt to create a platformer with extensive modding capabilities.
   * ~~add categories~~
   * ~~add a sound type that can overlap itself~~
 * [Rendering]() - what you will see on the screen. (or wont see)
+  * ~~render window~~
 * [Physics]() - things like collisions...
 * [Inputs]() - Handles all user inputs, gaming controller controls, keyboard buttons, mouse buttons, mouse position, basically any device which you would plug in to your computer to interact with the game.
 * [TileMap Manager]() - handles retrieving information about the tilemap (game map) note: maps should have their own method which extends this method to add unique information to the map which is specific to the game. such as enemy spawns or BGM.

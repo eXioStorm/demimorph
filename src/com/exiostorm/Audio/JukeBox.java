@@ -325,7 +325,7 @@ public static void play(String reference, String category, int id, boolean reocu
 				}
 			sources.put(reference + id + t, sourceData);
 			secruos.put(sourceData, reference + id + t);
-			categories.put(category, reference + id + t);
+			categories.put(category, sources.get(reference + id + t));
 			//System.out.println(nextClean + ": nextClean");
 			//System.out.println(System.currentTimeMillis() + ": current time");
 			if(expiration < nextClean || nextClean == 1L) {
@@ -701,6 +701,7 @@ public static void clearHard() {
 /*
 
  You need to be able to: 
+ refuse loading more sounds if there isn't enough program memory to do so. (maybe with an error message?)
  (this is complete!) stop the sound while it is currently playing, and this needs to work when that sound is already playing multiple times. (this is mostly done, you can stop sounds based on category, however I havent added the ability to stop the reoccuring clips yet.)
  (this is complete!) ability to play sounds from a reference string.
  add AL effects to the sound such as looping, or fading, and multiple effects at the same time. (looping is done, maybe some others too?)

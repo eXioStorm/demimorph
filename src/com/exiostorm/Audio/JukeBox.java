@@ -29,13 +29,15 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-//import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.map.MultiValueMap;
+
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
@@ -45,7 +47,7 @@ import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.stb.STBVorbisInfo;
 
 
-@SuppressWarnings("deprecation")//MultiValueMap was replaced by MultiValuedMap, however I couldn't quickly figure out how to iterate through MultiValuedMap...
+
 public class JukeBox {
 	static long nextClean;//Used for scheduling the deletion of new sources by storing the nearest expiration time.
 	//I dont think I really need these values... I'll review them later.
@@ -65,8 +67,8 @@ public class JukeBox {
 	private static HashMap<String, Integer> pauseState;//used to memorize which sounds are paused
 	private static HashMap<String, Integer> sources;//used to store all created sources
 	private static HashMap<Integer, String> secruos;//inverted sources to fetch the key String...
-	private static MultiValueMap<String, Integer> categories;//used to assign sources to a category. one category string which is the key, and all sources in that category get paired with that key.
-	private static MultiValueMap<String, Integer> instances;//used to keep duplicate sounds cleaned up (needed to allow them to overlap)
+	public static MultiValuedMap<String, Integer> categories;//used to assign sources to a category. one category string which is the key, and all sources in that category get paired with that key.
+	public static MultiValuedMap<String, Integer> instances;//used to keep duplicate sounds cleaned up (needed to allow them to overlap)
 	private static HashMap<String, Integer> buffers;//stores buffers to the reference keys
 	private static HashMap<Integer, Long> soundTime;//used to memorize when sources should expire.
 	private static HashMap<String, Integer> soundClean;//used to memorize values to remove after the cleaner runs.
@@ -138,12 +140,13 @@ public class JukeBox {
 	public static void Init() {
 		nextClean = 1L;//sets nextClean to 1 so that the cleaning method can detect that no sounds have been created yet.
 		sources = new HashMap<String, Integer>();//sets up the sources HashMap to be ready for use
+		pauseState = new HashMap<String, Integer>();
 		secruos = new HashMap<Integer, String>();
 		soundClean = new HashMap<String, Integer>();
-		categories = new MultiValueMap<String, Integer>();//sets up the categories MultiValueMap to be ready for use
+		categories = new HashSetValuedHashMap<>();//sets up the categories MultiValueMap to be ready for use
 		buffers = new HashMap<String, Integer>();//sets up the buffers HashMap to be ready for use
 		soundKeys = new HashMap<String, String>();//sets up the soundKeys HashMap to be ready for use
-		instances = new MultiValueMap<String, Integer>();//sets up the instances MultiValueMap to be ready for use
+		instances = new HashSetValuedHashMap<>();//sets up the instances MultiValueMap to be ready for use
 		soundTime = new HashMap<Integer, Long>();//sets up the soundTime HashMap to be ready for use
 		initialized = true;//indicates that the Init() method has been run.
 		//^^^^^^^^^^^^^
@@ -389,7 +392,7 @@ private static void clearReoccuring(){
 //############################################################################################################
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-private static float getLength(String reference) {
+public static float getLength(String reference) {
 	int buffer = buffers.get(reference);
 	int bytes = AL10.alGetBufferi(buffer, AL10.AL_SIZE);
 	int bits = AL10.alGetBufferi(buffer, AL10.AL_BITS);
@@ -449,11 +452,14 @@ public static void loop(String reference, boolean isLooping) {
 public static void pause(String reference, int id, boolean isCategory) {
 	if (playCheck(reference)){
 	if (isCategory) {
-		Iterator<Integer> itr = categories.iterator(reference);
+		Collection<Integer> iterator = categories.get(reference);
+		Iterator<Integer> itr = iterator.iterator();
 		while (itr.hasNext()) {
 			alSourcePause(itr.next());
 			
 		}
+		iterator = null;
+		itr = null;
   }else {
 	alSourcePause(sources.get(reference));
 	int t = 1;
@@ -518,10 +524,13 @@ public static void resumeAll() {
 public static void volume(String reference, float number, boolean isCategory) {
 	if (playCheck(reference)){
 		if (isCategory) {
-			Iterator<Integer> itr = categories.iterator(reference);
+			Collection<Integer> iterator = categories.get(reference);
+			Iterator<Integer> itr = iterator.iterator();
 			while (itr.hasNext()) {
 				alSourcef(itr.next(), AL_GAIN, number);
 				}
+			iterator = null;
+			itr = null;
 			}else {
 				alSourcef(sources.get(reference), AL_GAIN, number);
 				}
@@ -539,11 +548,14 @@ public static void volume(String reference, float number, boolean isCategory) {
 public static void stop(String reference, int id, boolean isCategory) {
 	if (playCheck(reference)){
 		if (isCategory) {
-			Iterator<Integer> itr = categories.iterator(reference);
+			Collection<Integer> iterator = categories.get(reference);
+			Iterator<Integer> itr = iterator.iterator();
 			while (itr.hasNext()) {
 				alSourceStop(itr.next());
 				checkALError();
 				}
+			iterator = null;
+			itr = null;
 			}else {
 				alSourceStop(sources.get(reference));
 				checkALError();
@@ -617,7 +629,8 @@ public static void masterVolume(float x) {
 public static void delete(String reference, int id, boolean isCategory) {
 	if (playCheck(reference)){
 		if (isCategory) {
-			Iterator<Integer> itr = categories.iterator(reference);
+			Collection<Integer> iterator = categories.get(reference);
+			Iterator<Integer> itr = iterator.iterator();
 			while (itr.hasNext()) {
 				//itr.next() gives the value in categories(being the source value)
 				alSourceStop(itr.next());
@@ -627,6 +640,8 @@ public static void delete(String reference, int id, boolean isCategory) {
 				alDeleteSources(sources.get(itr.next()));
 				alDeleteBuffers(buffers.get(itr.next()));
 				}
+			iterator = null;
+			itr = null;
 			}else {
 				alSourceStop(sources.get(reference));
 				categories.removeMapping(reference,(sources.get(reference)));
@@ -708,5 +723,8 @@ public static void clearHard() {
  (this is complete!) have a super simple way of calling audio that is 2 steps or fewer.
  (this is complete!) you need the ability to play more than a single sound at the same time.
  (might be able to reduce it to one call by having the sound check if it is loaded, if not then load.?) - maybe put this method in equilibrium with the 2 part function? -- I decided that although simple, I dont really like this idea and would prefer to plan loading.
-
+ 
+ 
+ todo:
+ set unused objects to null when not used any longer?
 */

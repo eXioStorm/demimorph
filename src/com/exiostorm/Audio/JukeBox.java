@@ -50,17 +50,8 @@ import org.lwjgl.stb.STBVorbisInfo;
 
 public class JukeBox {
 	static long nextClean;//Used for scheduling the deletion of new sources by storing the nearest expiration time.
-	//I dont think I really need these values... I'll review them later.
-    static String file;
-    String category;
-	String reference;
-	//
 	static String errorMessage;//stores the string for error messages?
-	float number;//dont think I need this. I'll review it later.
-	static Integer refData;//dont think I need this. I'll review it later.
-	boolean isCategory;//dont think I need this. I'll review it later.
 	static boolean JBInit;
-	static boolean reoccuring;//dont think I need this. I'll review it later.
     static long dev;//used to set up speaker device
     static long ct;//used to create context
 	private static HashMap<String, String> soundKeys;//used to store all keys for sources? I dont think I need this... I'll review it later.

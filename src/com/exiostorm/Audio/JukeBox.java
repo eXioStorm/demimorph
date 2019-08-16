@@ -341,7 +341,7 @@ public class JukeBox {
 	/**
 	 * this method is used to delete duplicate sources when they are no longer playing.
 	 */
-	private static void clearReoccuring(){
+	private static void clearReoccuring() {
 		if (nextClean < System.currentTimeMillis() && nextClean != 1L) {
 			//iterate through soundTime and delete sources whos keys are smaller than the current system time, as well as the hashmap pair for those keys
 			for(Integer key : soundTime.keySet()) {

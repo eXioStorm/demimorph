@@ -179,8 +179,8 @@ public class JukeBox {
 	 * @param reoccuring is this a reoccuring sound? (is this a sound that gets duplicated)
 	 */
 	public static void setPosition(String reference, int id, float x, float y, float z, boolean reoccuring) {
-		if (playCheck(reference)){
-			if (reoccuring){
+		if (playCheck(reference)) {
+			if (reoccuring) {
 				boolean i = true;
 				int j = 1;
 				while (i) {
@@ -273,7 +273,7 @@ public class JukeBox {
 	 * @param reference the name you loaded the file with.
 	 */
 	public static void playi(String reference) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			alSourcePlay(sources.get(reference));
 			checkALError();
 		} else {
@@ -292,8 +292,8 @@ public class JukeBox {
 	 * @param reocurring this indicates if the sound should create new sources to allow them to overlap.
 	 */
 	public static void play(String reference, String category, int id, boolean reocurring) {
-		if (playCheck(reference)){
-			if (reocurring){
+		if (playCheck(reference)) {
+			if (reocurring) {
 				clearReoccuring();
 				long systime = System.currentTimeMillis();
 				//System.out.println("current time: " + (systime));
@@ -328,7 +328,7 @@ public class JukeBox {
 				}
 				alSourcePlay(sourceData);
 			}
-			if (!reocurring){
+			if (!reocurring) {
 				alSourcePlay(sources.get(reference));
 				checkALError();
 			}
@@ -403,7 +403,7 @@ public class JukeBox {
 	 * @return returns true if the reference is already playing, false if it is not, or doesnt exist.
 	 */
 	public static boolean isPlaying(String reference) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			return alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PLAYING;
 		}else {
 			playCheck(reference);
@@ -422,7 +422,7 @@ public static void convergence(String reference, speed) {
 	 * @param isLooping do you want your sound to loop?
 	 */
 	public static void loop(String reference, boolean isLooping) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			if (isLooping) {
 				alSourcei(sources.get(reference), AL_LOOPING, AL_TRUE);
 			}else {
@@ -440,7 +440,7 @@ public static void convergence(String reference, speed) {
 	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
 	 */
 	public static void pause(String reference, int id, boolean isCategory) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			if (isCategory) {
 				Collection<Integer> iterator = categories.get(reference);
 				Iterator<Integer> itr = iterator.iterator();
@@ -468,7 +468,7 @@ public static void convergence(String reference, speed) {
 	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
 	 */
 	public static void resume(String reference, boolean isCategory) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			if(alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PAUSED) {
 				alSourcePlay(sources.get(reference));
 			}
@@ -511,7 +511,7 @@ public static void convergence(String reference, speed) {
 	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
 	 *///maybe make another hashmap that's run after the boolean "isCategory" to patch the volume after being adjusted globally?
 	public static void volume(String reference, float number, boolean isCategory) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			if (isCategory) {
 				Collection<Integer> iterator = categories.get(reference);
 				Iterator<Integer> itr = iterator.iterator();
@@ -534,7 +534,7 @@ public static void convergence(String reference, speed) {
 	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
 	 */
 	public static void stop(String reference, int id, boolean isCategory) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			if (isCategory) {
 				Collection<Integer> iterator = categories.get(reference);
 				Iterator<Integer> itr = iterator.iterator();
@@ -577,7 +577,7 @@ public static void convergence(String reference, speed) {
 	 */
 
 	public static void setProperty(String reference, int param, float value) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			alSourcef(sources.get(reference), param, value);
 		}else {
 			playCheck(reference);
@@ -614,7 +614,7 @@ public static void convergence(String reference, speed) {
 	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
 	 */
 	public static void delete(String reference, int id, boolean isCategory) {
-		if (playCheck(reference)){
+		if (playCheck(reference)) {
 			if (isCategory) {
 				Collection<Integer> iterator = categories.get(reference);
 				Iterator<Integer> itr = iterator.iterator();

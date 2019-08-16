@@ -52,8 +52,8 @@ public class JukeBox {
 	static long nextClean;//Used for scheduling the deletion of new sources by storing the nearest expiration time.
 	static String errorMessage;//stores the string for error messages?
 	static boolean JBInit;
-	static long dev;//used to set up speaker device
-	static long ct;//used to create context
+    static long dev;//used to set up speaker device
+    static long ct;//used to create context
 	private static HashMap<String, String> soundKeys;//used to store all keys for sources? I dont think I need this... I'll review it later.
 	private static HashMap<String, Integer> pauseState;//used to memorize which sounds are paused
 	private static HashMap<String, Integer> sources;//used to store all created sources
@@ -498,8 +498,9 @@ public static void pauseAll() {
 /**
  * this method is used to resume every single sound that is paused.
  */
+//fixed from a broken state, needs tested.
 public static void resumeAll() {
-	for (Integer value : pauseState.values()) {
+	for (String value : pauseState.keySet()) {
 		alSourcePlay(pauseState.get(value));
 		}
 	pauseState.clear();
@@ -623,13 +624,17 @@ public static void delete(String reference, int id, boolean isCategory) {
 			Collection<Integer> iterator = categories.get(reference);
 			Iterator<Integer> itr = iterator.iterator();
 			while (itr.hasNext()) {
+				Integer value = itr.next();
 				//itr.next() gives the value in categories(being the source value)
-				alSourceStop(itr.next());
-				//hopefully this removes the buffer by checking for the key in sources that contains the value from the iterator
-				buffers.remove(buffers.containsKey(sources.containsValue(itr.next())));
-				sources.remove(sources.containsValue(itr.next()));
-				alDeleteSources(sources.get(itr.next()));
-				alDeleteBuffers(buffers.get(itr.next()));
+				alSourceStop(value);
+				if (buffers.containsValue(value)) {
+				buffers.remove(secruos.get(value));
+				}
+				if (sources.containsValue(value)) {
+					sources.remove(secruos.get(value));
+				}
+				alDeleteSources(sources.get(secruos.get(value)));
+				alDeleteBuffers(buffers.get(secruos.get(value)));
 				}
 			iterator = null;
 			itr = null;

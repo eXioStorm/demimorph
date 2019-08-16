@@ -439,7 +439,6 @@ public static void loop(String reference, boolean isLooping) {
  * @param reference either the name of the sound, or the name of the category.
  * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
  */
-//Version1
 public static void pause(String reference, int id, boolean isCategory) {
 	if (playCheck(reference)){
 	if (isCategory) {
@@ -536,7 +535,6 @@ public static void volume(String reference, float number, boolean isCategory) {
  * @param reference either the name of the sound, or the name of the category.
  * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
  */
-//Version1
 public static void stop(String reference, int id, boolean isCategory) {
 	if (playCheck(reference)){
 		if (isCategory) {
@@ -617,7 +615,6 @@ public static void masterVolume(float x) {
  * @param reference either the name of the sound, or the name of the category.
  * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
  */
-//Version1
 public static void delete(String reference, int id, boolean isCategory) {
 	if (playCheck(reference)){
 		if (isCategory) {

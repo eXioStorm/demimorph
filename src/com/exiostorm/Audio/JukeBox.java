@@ -52,8 +52,8 @@ public class JukeBox {
 	static long nextClean;//Used for scheduling the deletion of new sources by storing the nearest expiration time.
 	static String errorMessage;//stores the string for error messages?
 	static boolean JBInit;
-    static long dev;//used to set up speaker device
-    static long ct;//used to create context
+	static long dev;//used to set up speaker device
+	static long ct;//used to create context
 	private static HashMap<String, String> soundKeys;//used to store all keys for sources? I dont think I need this... I'll review it later.
 	private static HashMap<String, Integer> pauseState;//used to memorize which sounds are paused
 	private static HashMap<String, Integer> sources;//used to store all created sources
@@ -65,17 +65,17 @@ public class JukeBox {
 	private static HashMap<String, Integer> soundClean;//used to memorize values to remove after the cleaner runs.
 	public static boolean initialized;//planned to be used in initCheck() to make sure the program has initialized to prevent crashing.
 	/**
-     * this is a method to indicate if the program is initialized yet.
-     */
+	 * this is a method to indicate if the program is initialized yet.
+	 */
 	public static void initCheck() {
 		if (!initialized) {
 			System.out.println("Sound hasn't been Initialized yet!");
 		}
 	}
 	/**
-     * this is a method to indicate if the reference key is already being used.
-     * @return returns true if the reference already exists, false if it doesnt.
-     */
+	 * this is a method to indicate if the reference key is already being used.
+	 * @return returns true if the reference already exists, false if it doesnt.
+	 */
 	public static boolean loadCheck(String reference) {
 		if (sources.containsKey(reference)) {
 			System.out.println("Reference exists already.");
@@ -83,12 +83,12 @@ public class JukeBox {
 		}else {
 			return false;
 		}
-		
+
 	}
 	/**
-     * pretty much a duplicate of loadCheck with opposite output, I created it because I ended up confusing myself when I tried to just use one method.
-     * @return returns true if the reference exists, false if it doesn't.
-     */
+	 * pretty much a duplicate of loadCheck with opposite output, I created it because I ended up confusing myself when I tried to just use one method.
+	 * @return returns true if the reference exists, false if it doesn't.
+	 */
 	public static boolean playCheck(String reference) {
 		if (!sources.containsKey(reference)) {
 			System.out.println("Reference does not exist.");
@@ -96,11 +96,11 @@ public class JukeBox {
 		}else {
 			return true;
 		}
-		
+
 	}
 	/**
-     * this is a method to indicate if the file exists or not. (and is used to prevent the program from crashing if you happen to try using something which doesn't exist.)
-     */
+	 * this is a method to indicate if the file exists or not. (and is used to prevent the program from crashing if you happen to try using something which doesn't exist.)
+	 */
 	public static boolean pathCheck(String file) {
 		String CurrentDir = System.getProperty("user.dir");
 		String relativePath = CurrentDir + "/Resources/" + file;
@@ -110,24 +110,24 @@ public class JukeBox {
 		}else {
 			errorMessage = "Check your file path for ''" + relativePath + "'' we can't seem to find it!";
 			System.out.println(errorMessage);
-		return false;
+			return false;
 		}
-		
+
 	}
 	/**
-     * @param checkALError debugging method, should give you relevant information as to why the program crashed, or why a bug occurred.
-     */
+	 * @param checkALError debugging method, should give you relevant information as to why the program crashed, or why a bug occurred.
+	 */
 	static void checkALError() {
-        int err = alGetError();
-        if (err != AL_NO_ERROR) {
-            throw new RuntimeException(alGetString(err));
+		int err = alGetError();
+		if (err != AL_NO_ERROR) {
+			throw new RuntimeException(alGetString(err));
 		}
-    }
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//Initialize
+	}
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//Initialize
 	/**
-     * this is the first method you run to use the program... it sets up all of the fields and services needed.
-     */
+	 * this is the first method you run to use the program... it sets up all of the fields and services needed.
+	 */
 	public static void Init() {
 		nextClean = 1L;//sets nextClean to 1 so that the cleaning method can detect that no sounds have been created yet.
 		sources = new HashMap<String, Integer>();//sets up the sources HashMap to be ready for use
@@ -158,26 +158,26 @@ public class JukeBox {
 				alcSetThreadContext(context);
 				AL.createCapabilities(deviceCaps);
 				JBInit = true;
-				}
+			}
 			catch (Exception e) {
 				e.printStackTrace();
-				}
-			}else {
-				System.out.println("Device is already open!");
-				}
+			}
+		}else {
+			System.out.println("Device is already open!");
 		}
-//############################################################################################################
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//logic loops
+	}
+	//############################################################################################################
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//logic loops
 	/**
-     * this is the method used to set the position of the source, it will be called every time the position should change.
-     * @param reference name of the sound
-     * @param id id of the source of the sound (for use with reoccuring sounds)
-     * @param x the x position
-     * @param y the y position
-     * @param z the z position
-     * @param reoccuring is this a reoccuring sound? (is this a sound that gets duplicated)
-     */
+	 * this is the method used to set the position of the source, it will be called every time the position should change.
+	 * @param reference name of the sound
+	 * @param id id of the source of the sound (for use with reoccuring sounds)
+	 * @param x the x position
+	 * @param y the y position
+	 * @param z the z position
+	 * @param reoccuring is this a reoccuring sound? (is this a sound that gets duplicated)
+	 */
 	public static void setPosition(String reference, int id, float x, float y, float z, boolean reoccuring) {
 		if (playCheck(reference)){
 			if (reoccuring){
@@ -191,361 +191,359 @@ public class JukeBox {
 						i = false;
 					}
 				}
-				}else {
-					alSource3f(sources.get(reference), AL_POSITION, x, y, z);
-					}
 			}else {
-				playCheck(reference);
+				alSource3f(sources.get(reference), AL_POSITION, x, y, z);
 			}
+		}else {
+			playCheck(reference);
+		}
 	}
 	//^^^^^^^^^^^^^
 	/**
-     * @param setListenerPosition this is the method used to set the position of the listener, it will be called every time the position of the listener changes.
-     */
+	 * @param setListenerPosition this is the method used to set the position of the listener, it will be called every time the position of the listener changes.
+	 */
 	public static void setListenerPosition(float x, float y, float z) {
 		alListener3f(AL_POSITION, x, y, z);
 	}
 	//^^^^^^^^^^^^^
-//############################################################################################################
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//What happens when file is loaded
-/**
-* this is the method used to load a file into memory.
-* @param file the file path including the container
-* @param category the category this sound belongs to
-* @param reference  the name of this sound
-*/
-public static void load(String file, String category, String reference) {
-	if(pathCheck(file)) {
-		if (!loadCheck(reference)) {
-			int bufferData = alGenBuffers();
-			checkALError();
-			int sourceData = alGenSources();
-			checkALError();
-			try (STBVorbisInfo info = STBVorbisInfo.malloc()) {
-				ShortBuffer pcm = readVorbis(file, 32 * 1024, info);
-				alBufferData(bufferData, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());
+	//############################################################################################################
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//What happens when file is loaded
+	/**
+	 * this is the method used to load a file into memory.
+	 * @param file the file path including the container
+	 * @param category the category this sound belongs to
+	 * @param reference  the name of this sound
+	 */
+	public static void load(String file, String category, String reference) {
+		if(pathCheck(file)) {
+			if (!loadCheck(reference)) {
+				int bufferData = alGenBuffers();
 				checkALError();
+				int sourceData = alGenSources();
+				checkALError();
+				try (STBVorbisInfo info = STBVorbisInfo.malloc()) {
+					ShortBuffer pcm = readVorbis(file, 32 * 1024, info);
+					alBufferData(bufferData, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());
+					checkALError();
 				}
-			alSourcei(sourceData, AL_BUFFER, bufferData);
-			checkALError();
-			sources.put(reference, sourceData);
-			secruos.put(sourceData, reference);
-			categories.put(category, sources.get(reference));
-			buffers.put(reference, bufferData);
-			soundKeys.put(reference, reference);
+				alSourcei(sourceData, AL_BUFFER, bufferData);
+				checkALError();
+				sources.put(reference, sourceData);
+				secruos.put(sourceData, reference);
+				categories.put(category, sources.get(reference));
+				buffers.put(reference, bufferData);
+				soundKeys.put(reference, reference);
 			}
 		}
 	}
-//############################################################################################################	
+	//############################################################################################################	
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//This reads vorbis files. IE: .ogg
-static ShortBuffer readVorbis(String resource, int bufferSize, STBVorbisInfo info) {
-	ByteBuffer vorbis;
-	try {
-		vorbis = ioResourceToByteBuffer(resource, bufferSize);
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//This reads vorbis files. IE: .ogg
+	static ShortBuffer readVorbis(String resource, int bufferSize, STBVorbisInfo info) {
+		ByteBuffer vorbis;
+		try {
+			vorbis = ioResourceToByteBuffer(resource, bufferSize);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-			}
-	IntBuffer error   = BufferUtils.createIntBuffer(1);
-	long      decoder = stb_vorbis_open_memory(vorbis, error, null);
-	if (decoder == NULL) {
-		throw new RuntimeException("Failed to open Ogg Vorbis file. Error: " + error.get(0));
 		}
-	stb_vorbis_get_info(decoder, info);
-	int channels = info.channels();
-    /**
-     * @param lengthSamples int lengthSamples = stb_vorbis_stream_length_in_samples(decoder)<u> * channels</u>;
-     */
-    //This was the bug!! (audio ended sooner than it should)
-    int lengthSamples = stb_vorbis_stream_length_in_samples(decoder) * channels;
-    ShortBuffer pcm = BufferUtils.createShortBuffer(lengthSamples);
-    pcm.limit(stb_vorbis_get_samples_short_interleaved(decoder, channels, pcm) * channels);
-    stb_vorbis_close(decoder);
-    return pcm;
-    }
-//############################################################################################################
-
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-/**
- * this is the simplest method to use if you want to play audio (by sacrificing features)
- * @param reference the name you loaded the file with.
- */
-public static void playi(String reference) {
-	if (playCheck(reference)){
-	alSourcePlay(sources.get(reference));
-	checkALError();
-	} else {
-		playCheck(reference);
+		IntBuffer error   = BufferUtils.createIntBuffer(1);
+		long      decoder = stb_vorbis_open_memory(vorbis, error, null);
+		if (decoder == NULL) {
+			throw new RuntimeException("Failed to open Ogg Vorbis file. Error: " + error.get(0));
+		}
+		stb_vorbis_get_info(decoder, info);
+		int channels = info.channels();
+		/**
+		 * @param lengthSamples int lengthSamples = stb_vorbis_stream_length_in_samples(decoder)<u> * channels</u>;
+		 */
+		//This was the bug!! (audio ended sooner than it should)
+		int lengthSamples = stb_vorbis_stream_length_in_samples(decoder) * channels;
+		ShortBuffer pcm = BufferUtils.createShortBuffer(lengthSamples);
+		pcm.limit(stb_vorbis_get_samples_short_interleaved(decoder, channels, pcm) * channels);
+		stb_vorbis_close(decoder);
+		return pcm;
 	}
-}
-//############################################################################################################
+	//############################################################################################################
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//add part in here for handling the indexing of sounds. (if 1, then 2, else 1)
-/**
- * this is the main method for playing sounds.
- * @param reference the name that you loaded the file with.
- * @param category the category that you want to put reoccuring sounds into.
- * @param id this is used to identify the creator of this sound, such as entities in your game.
- * @param reocurring this indicates if the sound should create new sources to allow them to overlap.
- */
-public static void play(String reference, String category, int id, boolean reocurring) {
-	if (playCheck(reference)){
-		if (reocurring){
-			clearReoccuring();
-			long systime = System.currentTimeMillis();
-			//System.out.println("current time: " + (systime));
-			int sourceData = alGenSources();
-			checkALError();
-			int bufferData = buffers.get(reference);
-			checkALError();
-			alSourcei(sourceData, AL_BUFFER, bufferData);
-			checkALError();
-			//float var1 = (alGetSourcef(sourceData, AL_SEC_OFFSET)) * 1000;// this is the source of the bug, it always returns 0...
-			long var1 = (long) (getLength(reference) * 1000);
-			long var2 = (systime + var1);
-			//long var3 = (long) var2;
-			//long var4 = (long) ((alGetSourcef(sourceData, AL_SEC_OFFSET) * 1000) + systime);
-			//System.out.println("sound length: " + (var1));
-			long expiration = var2 + 100L;
-			instances.put(reference, sourceData);
-			soundTime.put(sourceData, expiration);
-			int t = 1;
-			//indexing will go here at sources.put / categories.put
-			while(sources.get(reference+id+t)!=null) {
-				t++;
-				}
-			sources.put(reference + id + t, sourceData);
-			secruos.put(sourceData, reference + id + t);
-			categories.put(category, sources.get(reference + id + t));
-			//System.out.println(nextClean + ": nextClean");
-			//System.out.println(System.currentTimeMillis() + ": current time");
-			if(expiration < nextClean || nextClean == 1L) {
-				//System.out.println("expiration: " + expiration);
-				nextClean = expiration;
-				}
-			alSourcePlay(sourceData);
-			}
-		if (!reocurring){
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	/**
+	 * this is the simplest method to use if you want to play audio (by sacrificing features)
+	 * @param reference the name you loaded the file with.
+	 */
+	public static void playi(String reference) {
+		if (playCheck(reference)){
 			alSourcePlay(sources.get(reference));
 			checkALError();
+		} else {
+			playCheck(reference);
+		}
+	}
+	//############################################################################################################
+
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//add part in here for handling the indexing of sounds. (if 1, then 2, else 1)
+	/**
+	 * this is the main method for playing sounds.
+	 * @param reference the name that you loaded the file with.
+	 * @param category the category that you want to put reoccuring sounds into.
+	 * @param id this is used to identify the creator of this sound, such as entities in your game.
+	 * @param reocurring this indicates if the sound should create new sources to allow them to overlap.
+	 */
+	public static void play(String reference, String category, int id, boolean reocurring) {
+		if (playCheck(reference)){
+			if (reocurring){
+				clearReoccuring();
+				long systime = System.currentTimeMillis();
+				//System.out.println("current time: " + (systime));
+				int sourceData = alGenSources();
+				checkALError();
+				int bufferData = buffers.get(reference);
+				checkALError();
+				alSourcei(sourceData, AL_BUFFER, bufferData);
+				checkALError();
+				//float var1 = (alGetSourcef(sourceData, AL_SEC_OFFSET)) * 1000;// this is the source of the bug, it always returns 0...
+				long var1 = (long) (getLength(reference) * 1000);
+				long var2 = (systime + var1);
+				//long var3 = (long) var2;
+				//long var4 = (long) ((alGetSourcef(sourceData, AL_SEC_OFFSET) * 1000) + systime);
+				//System.out.println("sound length: " + (var1));
+				long expiration = var2 + 100L;
+				instances.put(reference, sourceData);
+				soundTime.put(sourceData, expiration);
+				int t = 1;
+				//indexing will go here at sources.put / categories.put
+				while(sources.get(reference+id+t)!=null) {
+					t++;
+				}
+				sources.put(reference + id + t, sourceData);
+				secruos.put(sourceData, reference + id + t);
+				categories.put(category, sources.get(reference + id + t));
+				//System.out.println(nextClean + ": nextClean");
+				//System.out.println(System.currentTimeMillis() + ": current time");
+				if(expiration < nextClean || nextClean == 1L) {
+					//System.out.println("expiration: " + expiration);
+					nextClean = expiration;
+				}
+				alSourcePlay(sourceData);
+			}
+			if (!reocurring){
+				alSourcePlay(sources.get(reference));
+				checkALError();
 			}
 		}else {
 			playCheck(reference);
-			}
+		}
 	}
-//############################################################################################################
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-/**
- * this method is used to delete duplicate sources when they are no longer playing.
- */
-private static void clearReoccuring(){
-	if (nextClean < System.currentTimeMillis() && nextClean != 1L) {
-		//iterate through soundTime and delete sources whos keys are smaller than the current system time, as well as the hashmap pair for those keys
-		for(Integer key : soundTime.keySet()) {
-			if(soundTime.get(key) < System.currentTimeMillis()) {
-				int keyi = (int) key;
-				//String keyString = secruos.get(keyi);//returns the value String
-				System.out.println("ClearReoccuring: deleting " + secruos.get(keyi) + "/" + key);
-				alSourceStop(keyi);
-				alDeleteSources(keyi);
-				//sources.remove(keys);//whoops, trying to remove the value, needs to be key.
-				categories.removeMapping(categories.containsValue(keyi), keyi);
-				soundClean.put(secruos.get(keyi), key);
-				sources.remove(secruos.get(keyi));
-				secruos.remove(keyi);
-				//this next value is the Concurrency error
-				//soundTime.remove(key);
+	//############################################################################################################
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	/**
+	 * this method is used to delete duplicate sources when they are no longer playing.
+	 */
+	private static void clearReoccuring(){
+		if (nextClean < System.currentTimeMillis() && nextClean != 1L) {
+			//iterate through soundTime and delete sources whos keys are smaller than the current system time, as well as the hashmap pair for those keys
+			for(Integer key : soundTime.keySet()) {
+				if(soundTime.get(key) < System.currentTimeMillis()) {
+					int keyi = (int) key;
+					//String keyString = secruos.get(keyi);//returns the value String
+					System.out.println("ClearReoccuring: deleting " + secruos.get(keyi) + "/" + key);
+					alSourceStop(keyi);
+					alDeleteSources(keyi);
+					//sources.remove(keys);//whoops, trying to remove the value, needs to be key.
+					categories.removeMapping(categories.containsValue(keyi), keyi);
+					soundClean.put(secruos.get(keyi), key);
+					sources.remove(secruos.get(keyi));
+					secruos.remove(keyi);
+					//this next value is the Concurrency error
+					//soundTime.remove(key);
 				}
 			}
-		for(String keyS : soundClean.keySet()) {
-			soundTime.remove(soundClean.get(keyS));
-		}
-		for(int yek : soundTime.keySet()) {
-			if (nextClean < soundTime.get(yek)) {
-				nextClean = soundTime.get(yek);
+			for(String keyS : soundClean.keySet()) {
+				soundTime.remove(soundClean.get(keyS));
+			}
+			for(int yek : soundTime.keySet()) {
+				if (nextClean < soundTime.get(yek)) {
+					nextClean = soundTime.get(yek);
+				}
+			}
+			for(int yek2 : soundTime.keySet()) {
+				if (nextClean > soundTime.get(yek2)) {
+					nextClean = soundTime.get(yek2);
+				}
+			}
+			soundClean.clear();
+			if(nextClean < System.currentTimeMillis() && nextClean != 1L) {
+				nextClean = 1L;
 			}
 		}
-		for(int yek2 : soundTime.keySet()) {
-			if (nextClean > soundTime.get(yek2)) {
-				nextClean = soundTime.get(yek2);
-			}
-		}
-		soundClean.clear();
-		if(nextClean < System.currentTimeMillis() && nextClean != 1L) {
-			nextClean = 1L;
+		else {}
+	}
+	//############################################################################################################
+
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	public static float getLength(String reference) {
+		int buffer = buffers.get(reference);
+		int bytes = AL10.alGetBufferi(buffer, AL10.AL_SIZE);
+		int bits = AL10.alGetBufferi(buffer, AL10.AL_BITS);
+		int channels = AL10.alGetBufferi(buffer, AL10.AL_CHANNELS);
+		int freq = AL10.alGetBufferi(buffer, AL10.AL_FREQUENCY);
+		int samples = bytes / (bits / 8);
+
+		return (samples / (float) freq) / channels;
+	}
+	//############################################################################################################
+
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	//This is where modifiers start.
+	/**
+	 * 
+	 * @param reference
+	 * @return returns true if the reference is already playing, false if it is not, or doesnt exist.
+	 */
+	public static boolean isPlaying(String reference) {
+		if (playCheck(reference)){
+			return alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PLAYING;
+		}else {
+			playCheck(reference);
+			return false;
 		}
 	}
-	else {}
-}
-//############################################################################################################
-
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-public static float getLength(String reference) {
-	int buffer = buffers.get(reference);
-	int bytes = AL10.alGetBufferi(buffer, AL10.AL_SIZE);
-	int bits = AL10.alGetBufferi(buffer, AL10.AL_BITS);
-	int channels = AL10.alGetBufferi(buffer, AL10.AL_CHANNELS);
-	int freq = AL10.alGetBufferi(buffer, AL10.AL_FREQUENCY);
-	int samples = bytes / (bits / 8);
-	
-	return (samples / (float) freq) / channels;
-}
-//############################################################################################################
-
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//This is where modifiers start.
-/**
- * 
- * @param reference
- * @return returns true if the reference is already playing, false if it is not, or doesnt exist.
- */
-public static boolean isPlaying(String reference) {
-	if (playCheck(reference)){
-	return alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PLAYING;
-	}else {
-		playCheck(reference);
-		return false;
-	}
-}
-//^^^^^^^^^^^^^
-/* reserved spot for moving sources
+	//^^^^^^^^^^^^^
+	/* reserved spot for moving sources
 public static void convergence(String reference, speed) {
 }
-*/
-//^^^^^^^^^^^^^
-/**
- * this method is used to toggle looping for the reference.
- * @param reference the name you loaded your sound with.
- * @param isLooping do you want your sound to loop?
- */
-public static void loop(String reference, boolean isLooping) {
-	if (playCheck(reference)){
-		if (isLooping) {
-			alSourcei(sources.get(reference), AL_LOOPING, AL_TRUE);
+	 */
+	//^^^^^^^^^^^^^
+	/**
+	 * this method is used to toggle looping for the reference.
+	 * @param reference the name you loaded your sound with.
+	 * @param isLooping do you want your sound to loop?
+	 */
+	public static void loop(String reference, boolean isLooping) {
+		if (playCheck(reference)){
+			if (isLooping) {
+				alSourcei(sources.get(reference), AL_LOOPING, AL_TRUE);
 			}else {
 				alSourcei(sources.get(reference), AL_LOOPING, AL_FALSE);
-				}
-		}else {
-			playCheck(reference);
-	}
-}
-//^^^^^^^^^^^^^
-//fix issues here; unable to pause the game with this setup
-/**
- * this method is used to pause either a single reference, or an entire category.
- * @param reference either the name of the sound, or the name of the category.
- * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
- */
-public static void pause(String reference, int id, boolean isCategory) {
-	if (playCheck(reference)){
-	if (isCategory) {
-		Collection<Integer> iterator = categories.get(reference);
-		Iterator<Integer> itr = iterator.iterator();
-		while (itr.hasNext()) {
-			alSourcePause(itr.next());
-			
-		}
-		iterator = null;
-		itr = null;
-  }else {
-	alSourcePause(sources.get(reference));
-	int t = 1;
-	while (loadCheck(reference+id+t)) {
-		alSourceStop(sources.get(reference+id+t));
-		t++;
-	}
-  }
-	}else {
-		playCheck(reference);
-	}
-}
-//^^^^^^^^^^^^^
-//New method! untested!
-/**
- * this method is used to continue playing sounds that have been paused.
- * @param reference either the name of the sound, or the name of the category.
- * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
- */
-public static void resume(String reference, boolean isCategory) {
-	if (playCheck(reference)){
-		if(alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PAUSED) {
-			alSourcePlay(sources.get(reference));
-		}
-		else {
-			System.out.println("this source isnt paused!");
 			}
 		}else {
 			playCheck(reference);
-			}
-	}
-//^^^^^^^^^^^^^
-//fixes for pause state after this line
-/**
- * this method is used to pause every single sound that is playing.
- */
-public static void pauseAll() {
-	for (String value : soundKeys.values()) {
-		if (isPlaying(value)) {
-			pauseState.put(value, sources.get(value));
-			alSourcePause(sources.get(value));
-			}
 		}
 	}
-/**
- * this method is used to resume every single sound that is paused.
- */
-//fixed from a broken state, needs tested.
-public static void resumeAll() {
-	for (String value : pauseState.keySet()) {
-		alSourcePlay(pauseState.get(value));
-		}
-	pauseState.clear();
-}
-//^^^^^^^^^^^^^
-/**
- * this method is used to set the volume for a single sound, or an entire category.
- * I need to work on this so that it can work separately from global volume controls. (changing global controls will override individual controls)
- * @param reference either the name of the sound, or the name of the category.
- * @param number 1.0 is 100% volume, hence 0.1 is 10% volume, and 0.01 is 1%
- * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
- *///maybe make another hashmap that's run after the boolean "isCategory" to patch the volume after being adjusted globally?
-public static void volume(String reference, float number, boolean isCategory) {
-	if (playCheck(reference)){
-		if (isCategory) {
-			Collection<Integer> iterator = categories.get(reference);
-			Iterator<Integer> itr = iterator.iterator();
-			while (itr.hasNext()) {
-				alSourcef(itr.next(), AL_GAIN, number);
+	//^^^^^^^^^^^^^
+	//fix issues here; unable to pause the game with this setup
+	/**
+	 * this method is used to pause either a single reference, or an entire category.
+	 * @param reference either the name of the sound, or the name of the category.
+	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
+	 */
+	public static void pause(String reference, int id, boolean isCategory) {
+		if (playCheck(reference)){
+			if (isCategory) {
+				Collection<Integer> iterator = categories.get(reference);
+				Iterator<Integer> itr = iterator.iterator();
+				while (itr.hasNext()) {
+					alSourcePause(itr.next());
+
 				}
-			iterator = null;
-			itr = null;
+			}else {
+				alSourcePause(sources.get(reference));
+				int t = 1;
+				while (loadCheck(reference+id+t)) {
+					alSourceStop(sources.get(reference+id+t));
+					t++;
+				}
+			}
+		}else {
+			playCheck(reference);
+		}
+	}
+	//^^^^^^^^^^^^^
+	//New method! untested!
+	/**
+	 * this method is used to continue playing sounds that have been paused.
+	 * @param reference either the name of the sound, or the name of the category.
+	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
+	 */
+	public static void resume(String reference, boolean isCategory) {
+		if (playCheck(reference)){
+			if(alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PAUSED) {
+				alSourcePlay(sources.get(reference));
+			}
+			else {
+				System.out.println("this source isnt paused!");
+			}
+		}else {
+			playCheck(reference);
+		}
+	}
+	//^^^^^^^^^^^^^
+	//fixes for pause state after this line
+	/**
+	 * this method is used to pause every single sound that is playing.
+	 */
+	public static void pauseAll() {
+		for (String value : soundKeys.values()) {
+			if (isPlaying(value)) {
+				pauseState.put(value, sources.get(value));
+				alSourcePause(sources.get(value));
+			}
+		}
+	}
+	/**
+	 * this method is used to resume every single sound that is paused.
+	 */
+	//fixed from a broken state, needs tested.
+	public static void resumeAll() {
+		for (String value : pauseState.keySet()) {
+			alSourcePlay(pauseState.get(value));
+		}
+		pauseState.clear();
+	}
+	//^^^^^^^^^^^^^
+	/**
+	 * this method is used to set the volume for a single sound, or an entire category.
+	 * I need to work on this so that it can work separately from global volume controls. (changing global controls will override individual controls)
+	 * @param reference either the name of the sound, or the name of the category.
+	 * @param number 1.0 is 100% volume, hence 0.1 is 10% volume, and 0.01 is 1%
+	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
+	 *///maybe make another hashmap that's run after the boolean "isCategory" to patch the volume after being adjusted globally?
+	public static void volume(String reference, float number, boolean isCategory) {
+		if (playCheck(reference)){
+			if (isCategory) {
+				Collection<Integer> iterator = categories.get(reference);
+				Iterator<Integer> itr = iterator.iterator();
+				while (itr.hasNext()) {
+					alSourcef(itr.next(), AL_GAIN, number);
+				}
+				iterator = null;
+				itr = null;
 			}else {
 				alSourcef(sources.get(reference), AL_GAIN, number);
-				}
+			}
 		}else {
 			playCheck(reference);
-			}
+		}
 	}
-//^^^^^^^^^^^^^
-/**
- * this method is used to stop a single sound, or an entire category.
- * @param reference either the name of the sound, or the name of the category.
- * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
- */
-public static void stop(String reference, int id, boolean isCategory) {
-	if (playCheck(reference)){
-		if (isCategory) {
-			Collection<Integer> iterator = categories.get(reference);
-			Iterator<Integer> itr = iterator.iterator();
-			while (itr.hasNext()) {
-				alSourceStop(itr.next());
-				checkALError();
+	//^^^^^^^^^^^^^
+	/**
+	 * this method is used to stop a single sound, or an entire category.
+	 * @param reference either the name of the sound, or the name of the category.
+	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
+	 */
+	public static void stop(String reference, int id, boolean isCategory) {
+		if (playCheck(reference)){
+			if (isCategory) {
+				Collection<Integer> iterator = categories.get(reference);
+				Iterator<Integer> itr = iterator.iterator();
+				while (itr.hasNext()) {
+					alSourceStop(itr.next());
+					checkALError();
 				}
-			iterator = null;
-			itr = null;
+				iterator = null;
+				itr = null;
 			}else {
 				alSourceStop(sources.get(reference));
 				checkALError();
@@ -554,87 +552,87 @@ public static void stop(String reference, int id, boolean isCategory) {
 					alSourceStop(sources.get(reference+id+t));
 					t++;
 				}
-				}
+			}
 		}else {
 			playCheck(reference);
-			}
+		}
 	}
-//^^^^^^^^^^^^^
-//this hasnt been tested, in theory it should work.
-/**
- * this method is used to stop every single sound.
- */
-public static void stopAll() {
-	for (Integer value : sources.values()) {
-	    alSourceStop(value);
-	    checkALError();
+	//^^^^^^^^^^^^^
+	//this hasnt been tested, in theory it should work.
+	/**
+	 * this method is used to stop every single sound.
+	 */
+	public static void stopAll() {
+		for (Integer value : sources.values()) {
+			alSourceStop(value);
+			checkALError();
+		}
 	}
-}
-//^^^^^^^^^^^^^
-/**
- * this method is used to set properties for your sound... proceed at your own risk. (I have work to do here possibly)
- * @param reference the name you used for your sound
- * @param param the int id of the parameter you want to change
- * @param value the float value of the parameter you want to change
- */
+	//^^^^^^^^^^^^^
+	/**
+	 * this method is used to set properties for your sound... proceed at your own risk. (I have work to do here possibly)
+	 * @param reference the name you used for your sound
+	 * @param param the int id of the parameter you want to change
+	 * @param value the float value of the parameter you want to change
+	 */
 
-public static void setProperty(String reference, int param, float value) {
-	if (playCheck(reference)){
-		alSourcef(sources.get(reference), param, value);
-	}else {
-		playCheck(reference);
+	public static void setProperty(String reference, int param, float value) {
+		if (playCheck(reference)){
+			alSourcef(sources.get(reference), param, value);
+		}else {
+			playCheck(reference);
+		}
 	}
-}
-//^^^^^^^^^^^^^
-/**
- * this method sets the starting position of your sound
- * @param reference the name you used for your sound
- * @param i how many seconds from 0 do you want your sound to start from when played
- */
-public static void setStart(String reference, int i) {
-	IntBuffer secondsOffset = BufferUtils.createIntBuffer(1).put(i);
-	secondsOffset.rewind();
-	AL11.alSourceiv(sources.get(reference), AL_SEC_OFFSET, secondsOffset);
-}
-//^^^^^^^^^^^^^
-//Master audio levels
-/**
- * this method sets the maximum volume for the listener
- * @param x 1.0 is 100% volume, hence 0.1 is 10% volume, and 0.01 is 1%
- */
-public static void masterVolume(float x) {
-	AL10.alListenerf(AL_GAIN, x);
-}
-//^^^^^^^^^^^^^
+	//^^^^^^^^^^^^^
+	/**
+	 * this method sets the starting position of your sound
+	 * @param reference the name you used for your sound
+	 * @param i how many seconds from 0 do you want your sound to start from when played
+	 */
+	public static void setStart(String reference, int i) {
+		IntBuffer secondsOffset = BufferUtils.createIntBuffer(1).put(i);
+		secondsOffset.rewind();
+		AL11.alSourceiv(sources.get(reference), AL_SEC_OFFSET, secondsOffset);
+	}
+	//^^^^^^^^^^^^^
+	//Master audio levels
+	/**
+	 * this method sets the maximum volume for the listener
+	 * @param x 1.0 is 100% volume, hence 0.1 is 10% volume, and 0.01 is 1%
+	 */
+	public static void masterVolume(float x) {
+		AL10.alListenerf(AL_GAIN, x);
+	}
+	//^^^^^^^^^^^^^
 
-//^^^^^^^^^^^^^
-//############################################################################################################
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-/**
- * this method is used to delete the source and buffer for your sound, or all sounds in a category.
- * @param reference either the name of the sound, or the name of the category.
- * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
- */
-public static void delete(String reference, int id, boolean isCategory) {
-	if (playCheck(reference)){
-		if (isCategory) {
-			Collection<Integer> iterator = categories.get(reference);
-			Iterator<Integer> itr = iterator.iterator();
-			while (itr.hasNext()) {
-				Integer value = itr.next();
-				//itr.next() gives the value in categories(being the source value)
-				alSourceStop(value);
-				if (buffers.containsValue(value)) {
-				buffers.remove(secruos.get(value));
+	//^^^^^^^^^^^^^
+	//############################################################################################################
+	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	/**
+	 * this method is used to delete the source and buffer for your sound, or all sounds in a category.
+	 * @param reference either the name of the sound, or the name of the category.
+	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
+	 */
+	public static void delete(String reference, int id, boolean isCategory) {
+		if (playCheck(reference)){
+			if (isCategory) {
+				Collection<Integer> iterator = categories.get(reference);
+				Iterator<Integer> itr = iterator.iterator();
+				while (itr.hasNext()) {
+					Integer value = itr.next();
+					//itr.next() gives the value in categories(being the source value)
+					alSourceStop(value);
+					if (buffers.containsValue(value)) {
+						buffers.remove(secruos.get(value));
+					}
+					if (sources.containsValue(value)) {
+						sources.remove(secruos.get(value));
+					}
+					alDeleteSources(sources.get(secruos.get(value)));
+					alDeleteBuffers(buffers.get(secruos.get(value)));
 				}
-				if (sources.containsValue(value)) {
-					sources.remove(secruos.get(value));
-				}
-				alDeleteSources(sources.get(secruos.get(value)));
-				alDeleteBuffers(buffers.get(secruos.get(value)));
-				}
-			iterator = null;
-			itr = null;
+				iterator = null;
+				itr = null;
 			}else {
 				alSourceStop(sources.get(reference));
 				categories.removeMapping(reference,(sources.get(reference)));
@@ -652,59 +650,59 @@ public static void delete(String reference, int id, boolean isCategory) {
 					alDeleteBuffers(buffers.get(reference+id+t));
 					t++;
 				}
-				}
+			}
 		}else {
 			playCheck(reference);
-			}
-	}
-//^^^^^^^^^^^^^
-//this hasnt been tested, in theory it should work.
-/**
- * this method is used to delete all sounds and buffers.
- */
-public static void clearSoft() {
-	stopAll();
-	for (Integer value : sources.values()) {
-		alDeleteSources(value);
 		}
-	for (Integer value : buffers.values()) {
-		alDeleteBuffers(value);
+	}
+	//^^^^^^^^^^^^^
+	//this hasnt been tested, in theory it should work.
+	/**
+	 * this method is used to delete all sounds and buffers.
+	 */
+	public static void clearSoft() {
+		stopAll();
+		for (Integer value : sources.values()) {
+			alDeleteSources(value);
 		}
-	sources.clear();
-	buffers.clear();
-	categories.clear();
-	soundTime.clear();
-	soundKeys.clear();
-	instances.clear();
-	pauseState.clear();
-}
-//^^^^^^^^^^^^^
-/**
- * this method is used to delete all sounds and buffers, and reset the device and initialized state.
- */
-public static void clearHard() {
-	stopAll();
-	for (Integer value : sources.values()) {
-		alDeleteSources(value);
+		for (Integer value : buffers.values()) {
+			alDeleteBuffers(value);
+		}
+		sources.clear();
+		buffers.clear();
+		categories.clear();
+		soundTime.clear();
+		soundKeys.clear();
+		instances.clear();
+		pauseState.clear();
 	}
-	for (Integer value : buffers.values()) {
-		alDeleteBuffers(value);
+	//^^^^^^^^^^^^^
+	/**
+	 * this method is used to delete all sounds and buffers, and reset the device and initialized state.
+	 */
+	public static void clearHard() {
+		stopAll();
+		for (Integer value : sources.values()) {
+			alDeleteSources(value);
+		}
+		for (Integer value : buffers.values()) {
+			alDeleteBuffers(value);
+		}
+		alcMakeContextCurrent(NULL);
+		alcDestroyContext(ct);
+		alcCloseDevice(dev);
+		sources.clear();
+		buffers.clear();
+		categories.clear();
+		soundTime.clear();
+		soundKeys.clear();
+		instances.clear();
+		pauseState.clear();
+		JBInit = false;
+		initialized = false;
 	}
-	alcMakeContextCurrent(NULL);
-    alcDestroyContext(ct);
-    alcCloseDevice(dev);
-	sources.clear();
-	buffers.clear();
-	categories.clear();
-	soundTime.clear();
-	soundKeys.clear();
-	instances.clear();
-	pauseState.clear();
-	JBInit = false;
-	initialized = false;
-}
-//############################################################################################################
-//!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$
+	//############################################################################################################
+	//!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$%^&*!@#$
 }
 /*
 
@@ -716,8 +714,8 @@ public static void clearHard() {
  (this is complete!) have a super simple way of calling audio that is 2 steps or fewer.
  (this is complete!) you need the ability to play more than a single sound at the same time.
  (might be able to reduce it to one call by having the sound check if it is loaded, if not then load.?) - maybe put this method in equilibrium with the 2 part function? -- I decided that although simple, I dont really like this idea and would prefer to plan loading.
- 
- 
- todo:
+
+
+ // TODO
  set unused objects to null when not used any longer?
-*/
+ */

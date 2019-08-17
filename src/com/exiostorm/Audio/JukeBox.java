@@ -80,7 +80,7 @@ public class JukeBox {
 		if (sources.containsKey(reference)) {
 			System.out.println("Reference exists already.");
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 
@@ -93,7 +93,7 @@ public class JukeBox {
 		if (!sources.containsKey(reference)) {
 			System.out.println("Reference does not exist.");
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 
@@ -107,7 +107,7 @@ public class JukeBox {
 		File fPath = new File(relativePath);
 		if (fPath.exists()) {
 			return true;
-		}else {
+		} else {
 			errorMessage = "Check your file path for ''" + relativePath + "'' we can't seem to find it!";
 			System.out.println(errorMessage);
 			return false;
@@ -162,7 +162,7 @@ public class JukeBox {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else {
+		} else {
 			System.out.println("Device is already open!");
 		}
 	}
@@ -187,14 +187,14 @@ public class JukeBox {
 					if(sources.get(reference+id+j) != null) {
 						alSource3f(sources.get(reference+id+j), AL_POSITION, x, y, z);
 						j++;
-					}else {
+					} else {
 						i = false;
 					}
 				}
-			}else {
+			} else {
 				alSource3f(sources.get(reference), AL_POSITION, x, y, z);
 			}
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -332,7 +332,7 @@ public class JukeBox {
 				alSourcePlay(sources.get(reference));
 				checkALError();
 			}
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -342,7 +342,7 @@ public class JukeBox {
 	 * this method is used to delete duplicate sources when they are no longer playing.
 	 */
 	private static void clearReoccuring() {
-		if (nextClean < System.currentTimeMillis() && nextClean != 1L) {
+		if (nextClean != 1L && nextClean < System.currentTimeMillis()) {
 			//iterate through soundTime and delete sources whos keys are smaller than the current system time, as well as the hashmap pair for those keys
 			for(Integer key : soundTime.keySet()) {
 				if(soundTime.get(key) < System.currentTimeMillis()) {
@@ -363,6 +363,7 @@ public class JukeBox {
 			for(String keyS : soundClean.keySet()) {
 				soundTime.remove(soundClean.get(keyS));
 			}
+			// TODO .stream().min()
 			for(int yek : soundTime.keySet()) {
 				if (nextClean < soundTime.get(yek)) {
 					nextClean = soundTime.get(yek);
@@ -405,7 +406,7 @@ public class JukeBox {
 	public static boolean isPlaying(String reference) {
 		if (playCheck(reference)) {
 			return alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PLAYING;
-		}else {
+		} else {
 			playCheck(reference);
 			return false;
 		}
@@ -423,12 +424,16 @@ public static void convergence(String reference, speed) {
 	 */
 	public static void loop(String reference, boolean isLooping) {
 		if (playCheck(reference)) {
+			// TODO Conditional Operator, 
+			//isLooping == true 
+			//? alSourcei(sources.get(reference), AL_LOOPING, AL_TRUE)
+			//: alSourcei(sources.get(reference), AL_LOOPING, AL_FALSE);
 			if (isLooping) {
 				alSourcei(sources.get(reference), AL_LOOPING, AL_TRUE);
-			}else {
+			} else {
 				alSourcei(sources.get(reference), AL_LOOPING, AL_FALSE);
 			}
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -448,7 +453,7 @@ public static void convergence(String reference, speed) {
 					alSourcePause(itr.next());
 
 				}
-			}else {
+			} else {
 				alSourcePause(sources.get(reference));
 				int t = 1;
 				while (loadCheck(reference+id+t)) {
@@ -456,7 +461,7 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -475,7 +480,7 @@ public static void convergence(String reference, speed) {
 			else {
 				System.out.println("this source isnt paused!");
 			}
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -520,10 +525,10 @@ public static void convergence(String reference, speed) {
 				}
 				iterator = null;
 				itr = null;
-			}else {
+			} else {
 				alSourcef(sources.get(reference), AL_GAIN, number);
 			}
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -544,7 +549,7 @@ public static void convergence(String reference, speed) {
 				}
 				iterator = null;
 				itr = null;
-			}else {
+			} else {
 				alSourceStop(sources.get(reference));
 				checkALError();
 				int t = 1;
@@ -553,7 +558,7 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -579,7 +584,7 @@ public static void convergence(String reference, speed) {
 	public static void setProperty(String reference, int param, float value) {
 		if (playCheck(reference)) {
 			alSourcef(sources.get(reference), param, value);
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -633,7 +638,7 @@ public static void convergence(String reference, speed) {
 				}
 				iterator = null;
 				itr = null;
-			}else {
+			} else {
 				alSourceStop(sources.get(reference));
 				categories.removeMapping(reference,(sources.get(reference)));
 				buffers.remove(reference);
@@ -651,7 +656,7 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		}else {
+		} else {
 			playCheck(reference);
 		}
 	}
@@ -718,4 +723,5 @@ public static void convergence(String reference, speed) {
 
  // TODO
  set unused objects to null when not used any longer?
+ add new multivaluedmaps to cleanup methods
  */

@@ -28,12 +28,12 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+//import java.util.List;
+//import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import org.apache.commons.collections4.MultiValuedMap;
@@ -276,9 +276,9 @@ public class JukeBox {
 		if (playCheck(reference)) {
 			alSourcePlay(sources.get(reference));
 			checkALError();
-		} else {
-			playCheck(reference);
-		}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//############################################################################################################
 
@@ -332,9 +332,9 @@ public class JukeBox {
 				alSourcePlay(sources.get(reference));
 				checkALError();
 			}
-		} else {
-			playCheck(reference);
-		}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//############################################################################################################
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -364,6 +364,7 @@ public class JukeBox {
 				soundTime.remove(soundClean.get(keyS));
 			}
 			// TODO .stream().min()
+			//nextClean = soundTime.values().stream().min(Long::compare).get();
 			for(int yek : soundTime.keySet()) {
 				if (nextClean < soundTime.get(yek)) {
 					nextClean = soundTime.get(yek);
@@ -379,7 +380,7 @@ public class JukeBox {
 				nextClean = 1L;
 			}
 		}
-		else {}
+		//else {}
 	}
 	//############################################################################################################
 
@@ -407,7 +408,7 @@ public class JukeBox {
 		if (playCheck(reference)) {
 			return alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PLAYING;
 		} else {
-			playCheck(reference);
+			//playCheck(reference);
 			return false;
 		}
 	}
@@ -424,18 +425,16 @@ public static void convergence(String reference, speed) {
 	 */
 	public static void loop(String reference, boolean isLooping) {
 		if (playCheck(reference)) {
-			// TODO Conditional Operator, 
-			//isLooping == true 
-			//? alSourcei(sources.get(reference), AL_LOOPING, AL_TRUE)
-			//: alSourcei(sources.get(reference), AL_LOOPING, AL_FALSE);
-			if (isLooping) {
-				alSourcei(sources.get(reference), AL_LOOPING, AL_TRUE);
-			} else {
-				alSourcei(sources.get(reference), AL_LOOPING, AL_FALSE);
-			}
-		} else {
-			playCheck(reference);
-		}
+			// TODO Conditional Operator / double check that this works
+			alSourcei(sources.get(reference), AL_LOOPING, isLooping == true ? AL_TRUE : AL_FALSE);
+			//if (isLooping) {
+			//	alSourcei(sources.get(reference), AL_LOOPING, AL_TRUE);
+			//} else {
+			//	alSourcei(sources.get(reference), AL_LOOPING, AL_FALSE);
+			//}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//^^^^^^^^^^^^^
 	//fix issues here; unable to pause the game with this setup
@@ -461,9 +460,9 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		} else {
-			playCheck(reference);
-		}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//^^^^^^^^^^^^^
 	//New method! untested!
@@ -480,9 +479,9 @@ public static void convergence(String reference, speed) {
 			else {
 				System.out.println("this source isnt paused!");
 			}
-		} else {
-			playCheck(reference);
-		}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//^^^^^^^^^^^^^
 	//fixes for pause state after this line
@@ -528,9 +527,9 @@ public static void convergence(String reference, speed) {
 			} else {
 				alSourcef(sources.get(reference), AL_GAIN, number);
 			}
-		} else {
-			playCheck(reference);
-		}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//^^^^^^^^^^^^^
 	/**
@@ -558,9 +557,9 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		} else {
-			playCheck(reference);
-		}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//^^^^^^^^^^^^^
 	//this hasnt been tested, in theory it should work.
@@ -584,9 +583,9 @@ public static void convergence(String reference, speed) {
 	public static void setProperty(String reference, int param, float value) {
 		if (playCheck(reference)) {
 			alSourcef(sources.get(reference), param, value);
-		} else {
-			playCheck(reference);
-		}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//^^^^^^^^^^^^^
 	/**
@@ -656,9 +655,9 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		} else {
-			playCheck(reference);
-		}
+		}// else {
+		//	playCheck(reference);
+		//}
 	}
 	//^^^^^^^^^^^^^
 	//this hasnt been tested, in theory it should work.
@@ -722,6 +721,7 @@ public static void convergence(String reference, speed) {
 
 
  // TODO
+ fix all instances of playCheck being run twice in if / else conditions.
  set unused objects to null when not used any longer?
  add new multivaluedmaps to cleanup methods
  */

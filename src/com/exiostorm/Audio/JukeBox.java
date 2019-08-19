@@ -354,7 +354,7 @@ public class JukeBox {
 			int minCalc = 0;
 			boolean firstDash = true;
 			for(int calc : soundTime.keySet()) {
-			if(!firstDash){minCalc = calc; firstDash = false;}
+			if(firstDash){minCalc = calc; firstDash = false;}
 			if(minCalc>calc){minCalc=calc;}
 			nextClean = minCalc;
 			}

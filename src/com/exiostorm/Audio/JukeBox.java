@@ -28,12 +28,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-//import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-//import java.util.List;
-//import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import org.apache.commons.collections4.MultiValuedMap;
@@ -276,9 +273,7 @@ public class JukeBox {
 		if (playCheck(reference)) {
 			alSourcePlay(sources.get(reference));
 			checkALError();
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//############################################################################################################
 
@@ -303,12 +298,8 @@ public class JukeBox {
 				checkALError();
 				alSourcei(sourceData, AL_BUFFER, bufferData);
 				checkALError();
-				//float var1 = (alGetSourcef(sourceData, AL_SEC_OFFSET)) * 1000;// this is the source of the bug, it always returns 0...
 				long var1 = (long) (getLength(reference) * 1000);
 				long var2 = (systime + var1);
-				//long var3 = (long) var2;
-				//long var4 = (long) ((alGetSourcef(sourceData, AL_SEC_OFFSET) * 1000) + systime);
-				//System.out.println("sound length: " + (var1));
 				long expiration = var2 + 100L;
 				instances.put(reference, sourceData);
 				soundTime.put(sourceData, expiration);
@@ -332,9 +323,7 @@ public class JukeBox {
 				alSourcePlay(sources.get(reference));
 				checkALError();
 			}
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//############################################################################################################
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -347,17 +336,13 @@ public class JukeBox {
 			for(Integer key : soundTime.keySet()) {
 				if(soundTime.get(key) < System.currentTimeMillis()) {
 					int keyi = (int) key;
-					//String keyString = secruos.get(keyi);//returns the value String
 					System.out.println("ClearReoccuring: deleting " + secruos.get(keyi) + "/" + key);
 					alSourceStop(keyi);
 					alDeleteSources(keyi);
-					//sources.remove(keys);//whoops, trying to remove the value, needs to be key.
 					categories.removeMapping(categories.containsValue(keyi), keyi);
 					soundClean.put(secruos.get(keyi), key);
 					sources.remove(secruos.get(keyi));
 					secruos.remove(keyi);
-					//this next value is the Concurrency error
-					//soundTime.remove(key);
 				}
 			}
 			for(String keyS : soundClean.keySet()) {
@@ -380,7 +365,6 @@ public class JukeBox {
 				nextClean = 1L;
 			}
 		}
-		//else {}
 	}
 	//############################################################################################################
 
@@ -432,9 +416,7 @@ public static void convergence(String reference, speed) {
 			//} else {
 			//	alSourcei(sources.get(reference), AL_LOOPING, AL_FALSE);
 			//}
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//^^^^^^^^^^^^^
 	//fix issues here; unable to pause the game with this setup
@@ -460,9 +442,7 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//^^^^^^^^^^^^^
 	//New method! untested!
@@ -479,9 +459,7 @@ public static void convergence(String reference, speed) {
 			else {
 				System.out.println("this source isnt paused!");
 			}
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//^^^^^^^^^^^^^
 	//fixes for pause state after this line
@@ -527,9 +505,7 @@ public static void convergence(String reference, speed) {
 			} else {
 				alSourcef(sources.get(reference), AL_GAIN, number);
 			}
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//^^^^^^^^^^^^^
 	/**
@@ -557,9 +533,7 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//^^^^^^^^^^^^^
 	//this hasnt been tested, in theory it should work.
@@ -583,9 +557,7 @@ public static void convergence(String reference, speed) {
 	public static void setProperty(String reference, int param, float value) {
 		if (playCheck(reference)) {
 			alSourcef(sources.get(reference), param, value);
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//^^^^^^^^^^^^^
 	/**
@@ -655,9 +627,7 @@ public static void convergence(String reference, speed) {
 					t++;
 				}
 			}
-		}// else {
-		//	playCheck(reference);
-		//}
+		}
 	}
 	//^^^^^^^^^^^^^
 	//this hasnt been tested, in theory it should work.
@@ -679,6 +649,8 @@ public static void convergence(String reference, speed) {
 		soundKeys.clear();
 		instances.clear();
 		pauseState.clear();
+		secruos.clear();
+		soundClean.clear();
 	}
 	//^^^^^^^^^^^^^
 	/**
@@ -702,6 +674,8 @@ public static void convergence(String reference, speed) {
 		soundKeys.clear();
 		instances.clear();
 		pauseState.clear();
+		secruos.clear();
+		soundClean.clear();
 		JBInit = false;
 		initialized = false;
 	}
@@ -721,6 +695,7 @@ public static void convergence(String reference, speed) {
 
 
  // TODO
+ double check that reocurring multimaps are included in delete methods
  fix all instances of playCheck being run twice in if / else conditions.
  set unused objects to null when not used any longer?
  add new multivaluedmaps to cleanup methods

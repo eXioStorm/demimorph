@@ -603,7 +603,12 @@ public static void convergence(String reference, speed) {
 					}
 					if (sources.containsValue(value)) {
 						sources.remove(secruos.get(value));
+						
 					}
+					if (secruos.containsKey(value)) {
+						secruos.remove(value);
+					}
+							
 					alDeleteSources(sources.get(secruos.get(value)));
 					alDeleteBuffers(buffers.get(secruos.get(value)));
 				}
@@ -613,7 +618,9 @@ public static void convergence(String reference, speed) {
 				alSourceStop(sources.get(reference));
 				categories.removeMapping(reference,(sources.get(reference)));
 				buffers.remove(reference);
+				secruos.remove(sources.get(reference));
 				sources.remove(reference);
+				
 				alDeleteSources(sources.get(reference));
 				alDeleteBuffers(buffers.get(reference));
 				int t = 1;
@@ -621,6 +628,7 @@ public static void convergence(String reference, speed) {
 					alSourceStop(sources.get(reference+id+t));
 					categories.removeMapping(reference+id+t,(sources.get(reference+id+t)));
 					buffers.remove(reference+id+t);
+					secruos.remove(sources.get(reference+id+t));
 					sources.remove(reference+id+t);
 					alDeleteSources(sources.get(reference+id+t));
 					alDeleteBuffers(buffers.get(reference+id+t));

@@ -350,6 +350,15 @@ public class JukeBox {
 			}
 			// TODO .stream().min()
 			//nextClean = soundTime.values().stream().min(Long::compare).get();
+			
+			int minCalc = 0;
+			boolean firstDash = true;
+			for(int calc : soundTime.keySet()) {
+			if(!firstDash){minCalc = calc; firstDash = false;}
+			if(minCalc>calc){minCalc=calc;}
+			nextClean = minCalc;
+			}
+			/*
 			for(int yek : soundTime.keySet()) {
 				if (nextClean < soundTime.get(yek)) {
 					nextClean = soundTime.get(yek);
@@ -359,7 +368,7 @@ public class JukeBox {
 				if (nextClean > soundTime.get(yek2)) {
 					nextClean = soundTime.get(yek2);
 				}
-			}
+			}*/
 			soundClean.clear();
 			if(nextClean < System.currentTimeMillis() && nextClean != 1L) {
 				nextClean = 1L;

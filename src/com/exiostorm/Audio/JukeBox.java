@@ -350,7 +350,7 @@ public class JukeBox {
 			}
 			// TODO .stream().min()
 			//nextClean = soundTime.values().stream().min(Long::compare).get();
-			
+			//delete old method to calc lowest value?
 			int minCalc = 0;
 			boolean firstDash = true;
 			for(int calc : soundTime.keySet()) {
@@ -714,6 +714,6 @@ public static void convergence(String reference, speed) {
  // TODO
  double check that reocurring multimaps are included in delete methods
  fix all instances of playCheck being run twice in if / else conditions.
- set unused objects to null when not used any longer?
+ set unused objects to null when not used any longer??
  add new multivaluedmaps to cleanup methods
  */

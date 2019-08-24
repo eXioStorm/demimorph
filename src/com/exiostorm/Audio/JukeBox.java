@@ -55,8 +55,8 @@ public class JukeBox {
 	private static HashMap<String, Integer> pauseState;//used to memorize which sounds are paused
 	private static HashMap<String, Integer> sources;//used to store all created sources
 	private static HashMap<Integer, String> secruos;//inverted sources to fetch the key String...
-	public static MultiValuedMap<String, Integer> categories;//used to assign sources to a category. one category string which is the key, and all sources in that category get paired with that key.
-	public static MultiValuedMap<String, Integer> instances;//used to keep duplicate sounds cleaned up (needed to allow them to overlap)
+	private static MultiValuedMap<String, Integer> categories;//used to assign sources to a category. one category string which is the key, and all sources in that category get paired with that key.
+	private static MultiValuedMap<String, Integer> instances;//used to keep duplicate sounds cleaned up (needed to allow them to overlap)
 	private static HashMap<String, Integer> buffers;//stores buffers to the reference keys
 	private static HashMap<Integer, Long> soundTime;//used to memorize when sources should expire.
 	private static HashMap<String, Integer> soundClean;//used to memorize values to remove after the cleaner runs.
@@ -191,8 +191,6 @@ public class JukeBox {
 			} else {
 				alSource3f(sources.get(reference), AL_POSITION, x, y, z);
 			}
-		} else {
-			playCheck(reference);
 		}
 	}
 	//^^^^^^^^^^^^^
@@ -712,6 +710,7 @@ public static void convergence(String reference, speed) {
 
 
  // TODO
+ make an indicator of how much memory is currently in use by audio
  double check that reocurring multimaps are included in delete methods
  fix all instances of playCheck being run twice in if / else conditions.
  set unused objects to null when not used any longer??

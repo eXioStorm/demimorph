@@ -15,8 +15,6 @@
 package com.exiostorm.Audio;
 
 import static com.exiostorm.testing.Audio.IOUtil.ioResourceToByteBuffer;
-import com.exiostorm.testing.tools.MultiMap;
-
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.openal.AL11.*;
@@ -42,6 +40,8 @@ import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.stb.STBVorbisInfo;
+
+import com.exiostorm.tools.MultiMap;
 
 
 

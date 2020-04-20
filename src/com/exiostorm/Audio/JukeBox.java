@@ -15,6 +15,8 @@
 package com.exiostorm.Audio;
 
 import static com.exiostorm.testing.Audio.IOUtil.ioResourceToByteBuffer;
+import com.exiostorm.testing.tools.MultiMap;
+
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.openal.AL11.*;
@@ -33,8 +35,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
 
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
@@ -55,8 +55,8 @@ public class JukeBox {
 	private static HashMap<String, Integer> pauseState;//used to memorize which sounds are paused
 	private static HashMap<String, Integer> sources;//used to store all created sources
 	private static HashMap<Integer, String> secruos;//inverted sources to fetch the key String...
-	private static MultiValuedMap<String, Integer> categories;//used to assign sources to a category. one category string which is the key, and all sources in that category get paired with that key.
-	private static MultiValuedMap<String, Integer> instances;//used to keep duplicate sounds cleaned up (needed to allow them to overlap)
+	private static MultiMap<String, Integer> categories;//used to assign sources to a category. one category string which is the key, and all sources in that category get paired with that key.
+	private static MultiMap<String, Integer> instances;//used to keep duplicate sounds cleaned up (needed to allow them to overlap)
 	private static HashMap<String, Integer> buffers;//stores buffers to the reference keys
 	private static HashMap<Integer, Long> soundTime;//used to memorize when sources should expire.
 	private static HashMap<String, Integer> soundClean;//used to memorize values to remove after the cleaner runs.
@@ -131,10 +131,10 @@ public class JukeBox {
 		pauseState = new HashMap<String, Integer>();
 		secruos = new HashMap<Integer, String>();
 		soundClean = new HashMap<String, Integer>();
-		categories = new HashSetValuedHashMap<>();//sets up the categories MultiValueMap to be ready for use
+		categories = new MultiMap<>();//sets up the categories MultiValueMap to be ready for use
 		buffers = new HashMap<String, Integer>();//sets up the buffers HashMap to be ready for use
 		soundKeys = new HashMap<String, String>();//sets up the soundKeys HashMap to be ready for use
-		instances = new HashSetValuedHashMap<>();//sets up the instances MultiValueMap to be ready for use
+		instances = new MultiMap<>();//sets up the instances MultiValueMap to be ready for use
 		soundTime = new HashMap<Integer, Long>();//sets up the soundTime HashMap to be ready for use
 		initialized = true;//indicates that the Init() method has been run.
 		//^^^^^^^^^^^^^
@@ -337,7 +337,11 @@ public class JukeBox {
 					System.out.println("ClearReoccuring: deleting " + secruos.get(keyi) + "/" + key);
 					alSourceStop(keyi);
 					alDeleteSources(keyi);
-					categories.removeMapping(categories.containsValue(keyi), keyi);
+					for(String keys : categories.keySet()) {
+						if(categories.containsValue(keyi)) {
+					categories.removeMapping(keys, keyi);
+						}
+					}
 					soundClean.put(secruos.get(keyi), key);
 					sources.remove(secruos.get(keyi));
 					secruos.remove(keyi);

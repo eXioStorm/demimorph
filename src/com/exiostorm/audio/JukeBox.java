@@ -12,9 +12,9 @@
  ################################################################################################################################################
  */
 
-package com.exiostorm.Audio;
+package com.exiostorm.audio;
 
-import static com.exiostorm.testing.Audio.IOUtil.ioResourceToByteBuffer;
+import static com.exiostorm.testing.audio.IOUtil.ioResourceToByteBuffer;
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.openal.AL11.*;

@@ -14,7 +14,7 @@
 
 package com.exiostorm.audio;
 
-import static com.exiostorm.testing.audio.IOUtil.ioResourceToByteBuffer;
+import static com.exiostorm.audio.IOUtil.ioResourceToByteBuffer;
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.openal.AL11.*;
@@ -41,7 +41,7 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.stb.STBVorbisInfo;
 
-import com.exiostorm.tools.MultiMap;
+import com.exiostorm.utils.MultiMap;
 
 
 
@@ -67,6 +67,8 @@ public class JukeBox {
 	public static void initCheck() {
 		if (!initialized) {
 			System.out.println("Sound hasn't been Initialized yet!");
+		} else {
+			System.out.println("Sound is already Initialized");
 		}
 	}
 	/**
@@ -126,6 +128,7 @@ public class JukeBox {
 	 * this is the first method you run to use the program... it sets up all of the fields and services needed.
 	 */
 	public static void Init() {
+		if (JBInit != true) {//sets up the default speaker device to be used
 		nextClean = 1L;//sets nextClean to 1 so that the cleaning method can detect that no sounds have been created yet.
 		sources = new HashMap<String, Integer>();//sets up the sources HashMap to be ready for use
 		pauseState = new HashMap<String, Integer>();
@@ -140,7 +143,7 @@ public class JukeBox {
 		//^^^^^^^^^^^^^
 		//
 		//^^^^^^^^^^^^^
-		if (JBInit != true) {//sets up the default speaker device to be used
+		
 			try {
 				long device = alcOpenDevice((ByteBuffer)null);
 				long context = alcCreateContext(device, (IntBuffer)null);
@@ -283,6 +286,7 @@ public class JukeBox {
 	 * @param category the category that you want to put reoccuring sounds into.
 	 * @param id this is used to identify the creator of this sound, such as entities in your game.
 	 * @param reocurring this indicates if the sound should create new sources to allow them to overlap.
+	 * @param maxcount this is to set a maximum amount of times a sound can overlap, to help reduce memory usage.
 	 */
 	public static void play(String reference, String category, int id, boolean reocurring) {
 		if (playCheck(reference)) {
@@ -298,7 +302,7 @@ public class JukeBox {
 				checkALError();
 				long var1 = (long) (getLength(reference) * 1000);
 				long var2 = (systime + var1);
-				long expiration = var2 + 100L;
+				long expiration = var2 + 50L;
 				instances.put(reference, sourceData);
 				soundTime.put(sourceData, expiration);
 				int t = 1;

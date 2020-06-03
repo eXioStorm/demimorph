@@ -1,6 +1,5 @@
 package com.exiostorm.main;
 
-import com.exiostorm.audio.JukeBox;
 import com.exiostorm.gui.Window;
 
 //This class is the "main" class that runs the game.

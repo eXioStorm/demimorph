@@ -35,8 +35,8 @@ an attempt to create a platformer with extensive modding capabilities.
 
 ## Dependencies
 * I'm using LWJGL to run this project, so far I'm utilizing the following libraries:
-  * OpenAL
-  * stb
+  * [OpenAL]()
+  * [stb]()
 
 ## special thanks:
 [Mike S.](https://github.com/foreignguymike) Thanks for making the original game code which I eviscerated in order to start learning how to make my own. Also check out his [youtube channel](https://www.youtube.com/channel/UC_IV37n-uBpRp64hQIwywWQ).

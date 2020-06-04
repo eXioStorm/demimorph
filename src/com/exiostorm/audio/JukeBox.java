@@ -391,9 +391,11 @@ public class JukeBox {
 		int bits = AL10.alGetBufferi(buffer, AL10.AL_BITS);
 		int channels = AL10.alGetBufferi(buffer, AL10.AL_CHANNELS);
 		int freq = AL10.alGetBufferi(buffer, AL10.AL_FREQUENCY);
+		if(bytes!=0) {
 		int samples = bytes / (bits / 8);
-
+		
 		return (samples / (float) freq) / channels;
+		} else return 0;
 	}
 	//############################################################################################################
 

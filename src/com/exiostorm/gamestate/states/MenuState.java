@@ -108,7 +108,7 @@ public class MenuState extends GameState {
 		}
 	}
 	public void incrementChoice(boolean AS) {
-		//JukeBox.play("menuoption", "effect", 1, true);
+		JukeBox.play("menuoption", "effect", 1, true);
 		if (AS == false) {
 			--currentChoice;
 			if (currentChoice < 0) {

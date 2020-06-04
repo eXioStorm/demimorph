@@ -119,7 +119,8 @@ public class JukeBox {
 	static void checkALError() {
 		int err = alGetError();
 		if (err != AL_NO_ERROR) {
-			throw new RuntimeException(alGetString(err));
+			//throw new RuntimeException(alGetString(err));
+			System.out.println(alGetString(err));
 		}
 	}
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

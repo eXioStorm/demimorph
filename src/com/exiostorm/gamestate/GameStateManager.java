@@ -2,6 +2,7 @@ package com.exiostorm.gamestate;
 
 import java.util.HashMap;
 
+import com.exiostorm.gamestate.states.MenuState;
 import com.exiostorm.handlers.ResourceManager;
 import com.exiostorm.main.GameScreen;
 

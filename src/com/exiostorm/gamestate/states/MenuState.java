@@ -45,7 +45,7 @@ public class MenuState extends GameState {
 			// load sound fx
 			JukeBox.load("SFX/menuoption.ogg", "buttons", "menuoption");
 			JukeBox.load("SFX/menuselect.ogg", "buttons", "menuselect");
-			JukeBox.play("menuoption", "effect", 1, true);
+			JukeBox.play("menuoption", "effect", 1, false);
 			JukeBox.play("menuselect", "effect", 1, true);
 			// other
 			if (GameScreen.keyBindings != "menu") {

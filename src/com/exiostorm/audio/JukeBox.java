@@ -60,6 +60,7 @@ public class JukeBox {
 	private static HashMap<String, Integer> buffers;//stores buffers to the reference keys
 	private static HashMap<Integer, Long> soundTime;//used to memorize when sources should expire.
 	private static HashMap<String, Integer> soundClean;//used to memorize values to remove after the cleaner runs.
+	public static long context;
 	public static boolean initialized;//planned to be used in initCheck() to make sure the program has initialized to prevent crashing.
 	/**
 	 * this is a method to indicate if the program is initialized yet.
@@ -119,8 +120,13 @@ public class JukeBox {
 	static void checkALError() {
 		int err = alGetError();
 		if (err != AL_NO_ERROR) {
+			
 			//throw new RuntimeException(alGetString(err));
-			System.out.println(alGetString(err));
+			if(org.lwjgl.openal.EXTThreadLocalContext.alcGetThreadContext()==0) {
+				alcSetThreadContext(context);
+			} else {
+			System.out.println(alGetString(err)+" ("+err+")");
+			}
 		}
 	}
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -147,7 +153,7 @@ public class JukeBox {
 		
 			try {
 				long device = alcOpenDevice((ByteBuffer)null);
-				long context = alcCreateContext(device, (IntBuffer)null);
+				context = alcCreateContext(device, (IntBuffer)null);
 				ct = context;
 				dev = device;
 				ALCCapabilities deviceCaps = ALC.createCapabilities(device);
@@ -217,6 +223,7 @@ public class JukeBox {
 	public static void load(String file, String category, String reference) {
 		if(pathCheck(file)) {
 			if (!loadCheck(reference)) {
+				checkALError();
 				int bufferData = alGenBuffers();
 				checkALError();
 				int sourceData = alGenSources();
@@ -273,8 +280,8 @@ public class JukeBox {
 	 */
 	public static void playi(String reference) {
 		if (playCheck(reference)) {
-			alSourcePlay(sources.get(reference));
 			checkALError();
+			alSourcePlay(sources.get(reference));
 		}
 	}
 	//############################################################################################################
@@ -290,6 +297,7 @@ public class JukeBox {
 	 * @param maxcount this is to set a maximum amount of times a sound can overlap, to help reduce memory usage.
 	 */
 	public static void play(String reference, String category, int id, boolean reocurring) {
+		checkALError();
 		if (playCheck(reference)) {
 			if (reocurring) {
 				clearReoccuring();
@@ -444,6 +452,7 @@ public static void convergence(String reference, speed) {
 	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
 	 */
 	public static void pause(String reference, int id, boolean isCategory) {
+		checkALError();
 		if (playCheck(reference)) {
 			if (isCategory) {
 				Collection<Integer> iterator = categories.get(reference);
@@ -470,6 +479,7 @@ public static void convergence(String reference, speed) {
 	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
 	 */
 	public static void resume(String reference, boolean isCategory) {
+		checkALError();
 		if (playCheck(reference)) {
 			if(alGetSourcei(sources.get(reference), AL_SOURCE_STATE) == AL_PAUSED) {
 				alSourcePlay(sources.get(reference));
@@ -485,6 +495,7 @@ public static void convergence(String reference, speed) {
 	 * this method is used to pause every single sound that is playing.
 	 */
 	public static void pauseAll() {
+		checkALError();
 		for (String value : soundKeys.values()) {
 			if (isPlaying(value)) {
 				pauseState.put(value, sources.get(value));
@@ -497,6 +508,7 @@ public static void convergence(String reference, speed) {
 	 */
 	//fixed from a broken state, needs tested.
 	public static void resumeAll() {
+		checkALError();
 		for (String value : pauseState.keySet()) {
 			alSourcePlay(pauseState.get(value));
 		}
@@ -532,6 +544,7 @@ public static void convergence(String reference, speed) {
 	 * @param isCategory a switch to determine if your reference is a single sound, or an entire category.
 	 */
 	public static void stop(String reference, int id, boolean isCategory) {
+		checkALError();
 		if (playCheck(reference)) {
 			if (isCategory) {
 				Collection<Integer> iterator = categories.get(reference);
@@ -559,6 +572,7 @@ public static void convergence(String reference, speed) {
 	 * this method is used to stop every single sound.
 	 */
 	public static void stopAll() {
+		checkALError();
 		for (Integer value : sources.values()) {
 			alSourceStop(value);
 			checkALError();

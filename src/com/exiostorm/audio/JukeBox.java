@@ -60,7 +60,7 @@ public class JukeBox {
 	private static HashMap<String, Integer> buffers;//stores buffers to the reference keys
 	private static HashMap<Integer, Long> soundTime;//used to memorize when sources should expire.
 	private static HashMap<String, Integer> soundClean;//used to memorize values to remove after the cleaner runs.
-	public static long context;
+	private static long context;
 	public static boolean initialized;//planned to be used in initCheck() to make sure the program has initialized to prevent crashing.
 	/**
 	 * this is a method to indicate if the program is initialized yet.

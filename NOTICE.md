@@ -1,1 +1,1 @@
-GetTomlInfo uses a 3rd party library "toml4j" - see [https://github.com/mwanji/toml4j/blob/master/LICENSE](https://github.com/mwanji/toml4j/blob/master/LICENSE)
+[GetTomlInfo]() uses a 3rd party library "[toml4j](https://github.com/mwanji/toml4j)" - see [https://github.com/mwanji/toml4j/blob/master/LICENSE](https://github.com/mwanji/toml4j/blob/master/LICENSE)
